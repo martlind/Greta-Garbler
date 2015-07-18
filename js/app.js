@@ -1,10 +1,6 @@
-//<![CDATA[ 
-$(window).load(function(){
+  // Global variables ---------------------------------------------------------
 
-
-  // Variables ----------------------------------------------------------------
-
-  var scaleSize = calculateScaleSize(),
+  var scaleSize,
       currentPlayArea = 0,
       playAreas = [],
       colors = [
@@ -19,6 +15,11 @@ $(window).load(function(){
       playInterval;
 
 
+//<![CDATA[ 
+$(window).load(function(){
+
+  scaleSize = calculateScaleSize();
+  
   // Init on audio loaded -----------------------------------------------------
 
   audio.onloadeddata = function () {

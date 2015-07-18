@@ -59,16 +59,21 @@ body {
 
 #playarea-settings {
   display: none;
+  position: absolute;
+  z-index: 2;
 }
 
 #bpm {
   width: 33%;
   text-align: center;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: none;
 }
 
 ul {
   list-style: none;
-  margin: 0;
+  margin: 0 0 128px;
   padding: 0;
   display: flex;
   flex-flow: row wrap;
@@ -115,42 +120,49 @@ ul .playarea {
 
 
 ul li.tomato,
-.bar .playarea.tomato {
+.bar .playarea.tomato,
+#playarea-settings.tomato {
   background-color: tomato;
 }
 
 ul li.gold,
-.bar .playarea.gold {
+.bar .playarea.gold,
+#playarea-settings.gold {
   background-color: gold;
 }
 
 ul li.darkorange,
-.bar .playarea.darkorange {
+.bar .playarea.darkorange,
+#playarea-settings.darkorange {
   background-color: darkorange;
 }
 
 ul li.limegreen,
-.bar .playarea.limegreen {
+.bar .playarea.limegreen,
+#playarea-settings.limegreen {
   background-color: limegreen;
 }
 
 ul li.lightsteelblue,
-.bar .playarea.lightsteelblue {
+.bar .playarea.lightsteelblue,
+#playarea-settings.lightsteelblue {
   background-color: lightsteelblue;
 }
 
 ul li.mediumorchid,
-.bar .playarea.mediumorchid {
+.bar .playarea.mediumorchid,
+#playarea-settings.mediumorchid {
   background-color: mediumorchid;
 }
 
 ul li.hotpink,
-.bar .playarea.hotpink {
+.bar .playarea.hotpink,
+#playarea-settings.hotpink {
   background-color: hotpink;
 }
 
 
-/*  */
+/* Media queries */
 
 @media only screen and (min-width: 460px) {
   ul li {
