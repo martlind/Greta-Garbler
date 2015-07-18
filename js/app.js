@@ -2,6 +2,7 @@
 
   var scaleSize,
       currentPlayArea = 0,
+      editPlayArea = 0,
       playAreas = [],
       colors = [
         "tomato",
@@ -75,7 +76,7 @@ $(window).load(function(){
     console.log("addPlayArea: " + id + " colorId: " + colorId);
     
     $("#playareas li:last").before('<li id="playarea' + id + '" class="playarea ' + colors[colorId] + '"><div></div></li>');
-    $("#playhead").before('<div id="playarea' + id + '" class="playarea ' + colors[colorId] + '" style="left:' + leftPercent + '%; width:' + sizePercent + '%;"></div>');
+    $("#playhead").before('<div id="barplayarea' + id + '" class="playarea ' + colors[colorId] + '" style="left:' + leftPercent + '%; width:' + sizePercent + '%;"></div>');
   }
 
 

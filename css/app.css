@@ -1,5 +1,7 @@
 body {
   margin: 0;
+  min-height: 100%;
+  font-family: sans-serif;
 }
 
 .bar {
@@ -59,8 +61,13 @@ body {
 
 #playarea-settings {
   display: none;
-  position: absolute;
+  position: fixed;
+  padding-top: 0px;
   z-index: 2;
+}
+
+#playarea-settings .content {
+  min-height: 100%;
 }
 
 #bpm {
@@ -121,46 +128,88 @@ ul .playarea {
 
 ul li.tomato,
 .bar .playarea.tomato,
-#playarea-settings.tomato {
+#playarea-settings.tomato .content {
   background-color: tomato;
 }
 
 ul li.gold,
 .bar .playarea.gold,
-#playarea-settings.gold {
+#playarea-settings.gold .content {
   background-color: gold;
 }
 
 ul li.darkorange,
 .bar .playarea.darkorange,
-#playarea-settings.darkorange {
+#playarea-settings.darkorange .content {
   background-color: darkorange;
 }
 
 ul li.limegreen,
 .bar .playarea.limegreen,
-#playarea-settings.limegreen {
+#playarea-settings.limegreen .content {
   background-color: limegreen;
 }
 
 ul li.lightsteelblue,
 .bar .playarea.lightsteelblue,
-#playarea-settings.lightsteelblue {
+#playarea-settings.lightsteelblue .content {
   background-color: lightsteelblue;
 }
 
 ul li.mediumorchid,
 .bar .playarea.mediumorchid,
-#playarea-settings.mediumorchid {
+#playarea-settings.mediumorchid .content {
   background-color: mediumorchid;
 }
 
 ul li.hotpink,
 .bar .playarea.hotpink,
-#playarea-settings.hotpink {
+#playarea-settings.hotpink .content {
   background-color: hotpink;
 }
 
+.rangeslider {
+  width: 100%;
+  height: 64px;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  position: relative;
+  display: block;
+}
+
+.rangeslider .rangeslider__fill {
+  background-color: rgba(255,255,255,.2);
+  height: 100%;
+  display: block;
+  position: absolute;
+}
+
+.rangeslider .rangeslider__handle {
+  background-color: rgba(255,255,255,.9);
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+  width: 64px;
+}
+
+#edit-controls {
+  display: flex;
+}
+
+#edit-controls div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 128px;
+  cursor: pointer;
+}
+
+#edit-controls div span {
+  pointer-events: none;
+  font-size: 4em;
+  margin-bottom: 0.15em;
+  color: #fff;
+}
 
 /* Media queries */
 
