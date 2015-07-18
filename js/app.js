@@ -2,7 +2,7 @@
 var Region = Backbone.Model.extend({
   initialize: function() {
     var self = this;
-    this.on('change:waveSurferRegion', function(){
+    this.on('change:waveSurferRegion', function() {
       self.wireUpRegion();
     });
   },
@@ -12,26 +12,26 @@ var Region = Backbone.Model.extend({
   wireUpRegion: function() {
     var waveSurferRegion = this.get('waveSurferRegion');
     var self = this;
-    waveSurferRegion.on('in', function(){
+    waveSurferRegion.on('in', function() {
       self.trigger('start');
     });
-    waveSurferRegion.on('out', function(){
+    waveSurferRegion.on('out', function() {
       self.trigger('stop');
     });
-    waveSurferRegion.on('remove', function(){
+    waveSurferRegion.on('remove', function() {
       self.trigger('remove');
     });
-    waveSurferRegion.on('update', function(){
+    waveSurferRegion.on('update', function() {
       self.trigger('update');
     });
   },
-  play: function(){
+  play: function() {
     this.get('waveSurferRegion').play();
   },
-  modify: function(options){
+  modify: function(options) {
     this.get('waveSurferRegion').update(options);
   },
-  remove: function(){
+  remove: function() {
     this.get('waveSurferRegion').remove();
   }
 });
