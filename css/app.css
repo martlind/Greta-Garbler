@@ -1,0 +1,189 @@
+body {
+  margin: 0;
+}
+
+.bar {
+  height: 128px;
+  background-color: #eee;
+}
+
+.bar .playarea {
+  position: absolute;
+  height: 128px;
+  background-color: #000;
+  opacity: .4;
+  display: inline-block;
+  width: 1em;
+  z-index: 2;
+}
+
+#playhead {
+  position: absolute;
+  width: 1px;
+  height: 128px;
+  background-color: #000;
+  display: inline-block;
+}
+
+#controls {
+  position: fixed;
+  bottom: 0;
+  background-color: #eee;
+  width: 100%;
+  display: flex;
+}
+
+#controls > * {
+  width: 33%;
+  height: 128px;
+  -webkit-appearance: none;
+}
+
+#controls > *:first-child {
+  width: 34%;
+}
+
+#controls button,
+#controls select {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+#controls div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#bpm {
+  width: 33%;
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+ul li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 50% 0 0;
+  width: 50%;
+}
+
+ul li.add {
+  background-color: #eee;
+}
+
+ul li div:hover {
+  background-color: rgba(0,0,0,.05);
+}
+
+ul li div {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+ul li.add div span {
+  pointer-events: none;
+  font-size: 4em;
+  margin-bottom: 0.15em;
+  color: lightslategrey;
+}
+
+ul .playarea {
+  cursor: pointer;
+}
+
+
+ul li.tomato,
+.bar .playarea.tomato {
+  background-color: tomato;
+}
+
+ul li.gold,
+.bar .playarea.gold {
+  background-color: gold;
+}
+
+ul li.darkorange,
+.bar .playarea.darkorange {
+  background-color: darkorange;
+}
+
+ul li.limegreen,
+.bar .playarea.limegreen {
+  background-color: limegreen;
+}
+
+ul li.lightsteelblue,
+.bar .playarea.lightsteelblue {
+  background-color: lightsteelblue;
+}
+
+ul li.mediumorchid,
+.bar .playarea.mediumorchid {
+  background-color: mediumorchid;
+}
+
+ul li.hotpink,
+.bar .playarea.hotpink {
+  background-color: hotpink;
+}
+
+
+/*  */
+
+@media only screen and (min-width: 460px) {
+  ul li {
+    width: 33.333%;
+    padding: 33.333% 0 0;
+  }
+  
+}
+
+@media only screen and (min-width: 680px) {
+  ul li {
+    width: 25%;
+    padding: 25% 0 0;
+  }
+  
+}
+
+@media only screen and (min-width: 1020px) {
+  ul li {
+    width: 20%;
+    padding: 20% 0 0;
+  }
+  
+}
+
+@media only screen and (min-width: 1400px) {
+  ul li {
+    width: 16.666666667%;
+    padding: 16.666666667% 0 0;
+  }
+  
+}
+
+@media only screen and (min-width: 1600px) {
+  ul li {
+    width: 14.285714286%;
+    padding: 14.285714286% 0 0;
+  }
+  
+}
