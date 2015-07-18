@@ -35,7 +35,8 @@
     </select>
   </div>
   <div id="playarea-settings">
-    
+    <input id="playarea-position" type="range" min="0" max="100" step="1" value="0">
+    <input id="playarea-size" type="range" min="1" max="64" step="1" value="1">
   </div>
 </body>
 </html>

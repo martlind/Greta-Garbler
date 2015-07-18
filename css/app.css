@@ -57,6 +57,10 @@ body {
   justify-content: center;
 }
 
+#playarea-settings {
+  display: none;
+}
+
 #bpm {
   width: 33%;
   text-align: center;
