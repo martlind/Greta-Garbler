@@ -1,17 +1,66 @@
-body {
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
   margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+article, aside, details, figcaption, figure, footer,
+header, hgroup, menu, nav, section {
+  display: block;
+}
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+body {
+  line-height: 1;
   min-height: 100%;
   font-family: sans-serif;
+  color: #666;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+audio {
+  display: none;
+  height: 0;
 }
 
 .bar {
-  height: 128px;
+  height: 64px;
   background-color: #eee;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 10;
 }
 
 .bar .playarea {
   position: absolute;
-  height: 128px;
+  height: 64px;
   background-color: #000;
   opacity: .4;
   display: inline-block;
@@ -19,10 +68,15 @@ body {
   z-index: 2;
 }
 
+.bar canvas {
+  width: 100%;
+  height: 100%;
+}
+
 #playhead {
   position: absolute;
   width: 1px;
-  height: 128px;
+  height: 64px;
   background-color: #000;
   display: inline-block;
 }
@@ -30,19 +84,21 @@ body {
 #controls {
   position: fixed;
   bottom: 0;
-  background-color: #eee;
+  background-color: #f7f7f7;
   width: 100%;
   display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  height: 84px;
+  border-top: 1px solid rgba(0,0,0,.1);
+  z-index: 11;
 }
 
 #controls > * {
   width: 33%;
-  height: 128px;
   -webkit-appearance: none;
-}
-
-#controls > *:first-child {
-  width: 34%;
 }
 
 #controls button,
@@ -53,21 +109,65 @@ body {
   border: none;
 }
 
+#controls div:nth-child(2) {
+  width: 34%;
+  border-left: 1px solid rgba(0,0,0,.1);
+  border-right: 1px solid rgba(0,0,0,.1);
+}
+
+#snap, #bpm {
+  display: none;
+}
+
 #controls div {
   display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   align-items: center;
-  justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: space-around;
+}
+
+#controls div i,
+.add div i,
+#edit-controls div i {
+  pointer-events: none;
+  fill: #789;
+  margin: 0 auto;
+  vertical-align: -3px;
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+#edit-controls div i {
+  fill: #fff;
+}
+
+#edit-controls div.remove i {
+  width: 30px;
+  height: 30px;
+}
+
+#play {
+  cursor: pointer;
 }
 
 #playarea-settings {
-  display: none;
+  left: 100%;
   position: fixed;
-  padding-top: 0px;
+  padding: 0px;
   z-index: 2;
 }
 
 #playarea-settings .content {
   min-height: 100%;
+  padding-top: 1px;
 }
 
 #bpm {
@@ -80,16 +180,27 @@ body {
 
 ul {
   list-style: none;
-  margin: 0 0 128px;
+  margin: 63px 0 83px;
   padding: 0;
   display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   flex-flow: row wrap;
+  -webkit-flex-flow: row wrap;
 }
 
 ul li {
   position: relative;
   display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   align-items: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
   margin: 0;
   padding: 50% 0 0;
   width: 50%;
@@ -99,19 +210,27 @@ ul li.add {
   background-color: #eee;
 }
 
-ul li div:hover {
+.button:hover {
   background-color: rgba(0,0,0,.05);
+  cursor: pointer;
 }
 
 ul li div {
   position: absolute;
   display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   width: 100%;
   height: 100%;
   top: 0;
   justify-content: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
   align-items: center;
-  cursor: pointer;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
 }
 
 ul li.add div span {
@@ -120,11 +239,6 @@ ul li.add div span {
   margin-bottom: 0.15em;
   color: lightslategrey;
 }
-
-ul .playarea {
-  cursor: pointer;
-}
-
 
 ul li.tomato,
 .bar .playarea.tomato,
@@ -184,36 +298,47 @@ ul li.hotpink,
 }
 
 .rangeslider .rangeslider__handle {
-  background-color: rgba(255,255,255,.9);
+  background-color: #fff;
   height: 100%;
   cursor: pointer;
   position: absolute;
   width: 64px;
+  margin: 0 1px;
 }
 
 #edit-controls {
   display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  border-bottom: 1px solid rgba(0,0,0,.1);
 }
 
 #edit-controls div {
   display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   justify-content: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
   align-items: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
   width: 50%;
-  height: 128px;
+  height: 64px;
   cursor: pointer;
 }
 
-#edit-controls div span {
-  pointer-events: none;
-  font-size: 4em;
-  margin-bottom: 0.15em;
-  color: #fff;
+#edit-controls div:first-child {
+  border-right: 1px solid rgba(0,0,0,.1);
 }
 
 /* Media queries */
 
-@media only screen and (min-width: 460px) {
+@media only screen and (min-width: 320px) {
   ul li {
     width: 33.333%;
     padding: 33.333% 0 0;
