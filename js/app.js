@@ -39,13 +39,8 @@ var Region = Backbone.Model.extend({
 var TimeLine = Backbone.Collection.extend({
   model: Region,
   initialize: function() {
-    var self = this;
     this.currentRegionIndex = 0;
-    this.wavesurfer = Object.create(WaveSurfer);
-
-    this.wavesurfer.init({
-      container: '.bar',
-      interact: false
+    this.wavesurfer = null;
     });
 
     this.wavesurfer.on('ready', function(){ self.addRegion(); });
@@ -81,9 +76,19 @@ var App = Backbone.Model.extend({
     this.setupApplication();
   },
   setupApplication: function() {
+    var wavesurfer = Object.create(WaveSurfer);
+    this.set('wavesurfer', wavesurfer);
+
+    wavesurfer.init({
+      container: '.bar',
+      interact: false,
+      progressColor: '#999'
+    });
     // TODO: create a couple of random Region's to initialize TimeLine with
     this.set('timeLine', new TimeLine());
     this.set('bpm', 120);
+    this.get('timeLine').wavesurfer = wavesurfer;
+    this.get('timeLine').ready();
   },
   play: function() {
     this.get('timeLine').play();
