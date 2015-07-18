@@ -1,168 +1,109 @@
-//<![CDATA[ 
-$(window).load(function(){
 
-
-  // Variables ----------------------------------------------------------------
-
-  var scaleSize = calculateScaleSize(),
-      currentPlayArea = 0,
-      playAreas = [],
-      colors = [
-        "tomato",
-        "gold",
-        "darkorange",
-        "limegreen",
-        "mediumorchid",
-        "hotpink",
-        "lightsteelblue"
-      ],
-      playInterval;
-
-
-  // Init on audio loaded -----------------------------------------------------
-
-  audio.onloadeddata = function () {
-
-    console.log("onloadeddata");
-    console.log("audio.duration: " + audio.duration);
-
-    // Create 4 playAreas
-    for (var i = 0; i < 4; i++) {
-      addNewPlayArea();
-    }
-
+var Region = Backbone.Model.extend({
+  initialize: function() {
+    var self = this;
+    this.on('change:waveSurferRegion', function(){
+      self.wireUpRegion();
+    });
+  },
+  setInitialAttributes: function() {
+    // this.set('in', );
+  },
+  wireUpRegion: function() {
+    var waveSurferRegion = this.get('waveSurferRegion');
+    var self = this;
+    waveSurferRegion.on('in', function(){
+      self.trigger('start');
+    });
+    waveSurferRegion.on('out', function(){
+      self.trigger('stop');
+    });
+    waveSurferRegion.on('remove', function(){
+      self.trigger('remove');
+    });
+    waveSurferRegion.on('update', function(){
+      self.trigger('update');
+    });
+  },
+  play: function(){
+    this.get('waveSurferRegion').play();
+  },
+  modify: function(options){
+    this.get('waveSurferRegion').update(options);
+  },
+  remove: function(){
+    this.get('waveSurferRegion').remove();
   }
-
-
-  // PlayArea specific functions ----------------------------------------------
-
-  function addNewPlayArea() {
-    var start = randomIntFromInterval(0, Math.floor(audio.duration));
-    var steps = scaleSize * randomIntFromInterval(1, 1);
-
-    setPlayArea(playAreas.length, start, start + steps, steps);
-  }
-
-  function setPlayArea(id, start, stop, steps) {
-    console.log(id + " - " + start + " - " + stop);
-    
-    addPlayAreaLater = (!$.isArray(playAreas[id])) ? true : false;
-
-    playAreas[id] = {
-      start: start,
-      stop: stop,
-      steps: steps
-    };
-
-    if (addPlayAreaLater) {
-      addPlayArea(id);
-    }
-  }
-
-  function updateAllPlayAreas() {
-    var i = playAreas.length;
-    while (i--) {
-      playAreas[i].stop = playAreas[i].start + playAreas[i].stop * playAreas[i].steps;
-    }
-  }
-
-  function addPlayArea(id) {
-    var leftPercent = playAreas[id].start / audio.duration * 100,
-        sizePercent = (playAreas[id].stop - playAreas[id].start) / audio.duration * 100,
-        colorId = id % colors.length;
-
-    console.log("addPlayArea: " + id + " colorId: " + colorId);
-    
-    $("#playareas li:last").before('<li id="playarea' + id + '" class="playarea ' + colors[colorId] + '"><div></div></li>');
-    $("#playhead").before('<div id="playarea' + id + '" class="playarea ' + colors[colorId] + '" style="left:' + leftPercent + '%; width:' + sizePercent + '%;"></div>');
-  }
-
-
-  // Helpers ------------------------------------------------------------------
-
-  function isPlaying(audio) { return !audio.paused; }
-
-  function randomIntFromInterval(min, max) { return Math.floor(Math.random()*(max-min+1)+min); }
-
-  function calculateScaleSize() { return 60/$("#bpm").val()/$("#snap").val(); }
-
-
-  // Player
-
-  function movePlayHead(currentTime) {
-    var percent = currentTime/audio.duration * 100;
-    $("#playhead").css("left", percent + "%");
-  }
-
-  function run() {
-
-    console.log(audio.currentTime);
-
-    var currentTime = audio.currentTime,
-        stop = playAreas[currentPlayArea].stop,
-        currentDiff = Math.abs(stop - currentTime);
-
-    console.log("stop - currentTime: " + Math.abs(stop - currentTime) + " - " + (currentDiff > scaleSize));
-
-    if (currentDiff > scaleSize) {
-      movePlayHead(currentTime);
-      return;
-    }
-    else if (currentDiff < Math.abs(stop - (currentTime + scaleSize))) {
-      playNextArea();
-    }
-  }
-
-  function playNextArea() {
-    var nextPlayArea = currentPlayArea + 1;
-
-    if (nextPlayArea == playAreas.length) {
-      audio.currentTime = playAreas[0].start;
-      currentPlayArea = 0;
-    }
-    else {
-      audio.currentTime = playAreas[nextPlayArea].start;
-      currentPlayArea = nextPlayArea;
-    }
-    movePlayHead(audio.currentTime);
-  }
-
-
-  // User interactions --------------------------------------------------------
-
-  $("#bpm, #snap").change(function () {
-    scaleSize = calculateScaleSize();
-  });
-
-  $("#playareas .add").click(function() {
-    addNewPlayArea();
-  });
-
-  $("#play").click(function() {
-    if (isPlaying(audio)) {
-      audio.pause();
-      $(this).text("Play");
-      clearInterval(playInterval);
-    }
-    else {
-      audio.currentTime = playAreas[0].start;
-      audio.play();
-      console.log(audio.currentTime);
-      playInterval = setInterval(run, scaleSize*1000);
-      $(this).text("Stop");
-    }
-  });
-
-
-  // Wavesurfer init  ---------------------------------------------------------
-
-  var wavesurfer = Object.create(WaveSurfer);
-
-  wavesurfer.init({
-    container: '.bar'
-  });
-
-  wavesurfer.load(audio.src);
-
 });
-//]]>
+
+var TimeLine = Backbone.Collection.extend({
+  model: Region,
+  initialize: function() {
+    var self = this;
+    this.currentRegionIndex = 0;
+    this.wavesurfer = Object.create(WaveSurfer);
+
+    this.wavesurfer.init({
+      container: '.bar',
+      interact: false
+    });
+
+    this.wavesurfer.on('ready', function(){ self.addRegion(); });
+
+    this.wavesurfer.load('http://upload.wikimedia.org/wikipedia/commons/7/7a/The_Yellow_Rose_Of_Texas.ogg');
+  },
+  addRegion: function() {
+    var start = randomIntFromInterval(0, this.wavesurfer.getDuration());
+    var region = new Region({
+      start: start,
+      end: start + 20, // FIXME
+    });
+    this.add(region);
+    var waveSurferRegion = this.wavesurfer.addRegion({
+      start: region.get('start'),
+      end: region.get('end'),
+      color: 'hotpink',
+      drag: false,
+      resize: false
+    });
+    region.set('waveSurferRegion', waveSurferRegion);
+  },
+  play: function () {
+    // this.wavesurfer.play();
+  },
+  pause: function () {
+    this.wavesurfer.pause();
+  }
+});
+
+var App = Backbone.Model.extend({
+  initialize: function() {
+    this.setupApplication();
+  },
+  setupApplication: function() {
+    // TODO: create a couple of random Region's to initialize TimeLine with
+    this.set('timeLine', new TimeLine());
+    this.set('bpm', 120);
+  },
+  play: function() {
+    this.get('timeLine').play();
+  },
+  pause: function() {
+    this.get('timeLine').pause();
+  },
+  loadFile: function (fileName) {
+    this.get('timeLine').loadFile();
+  }
+});
+
+// -- Helpers
+
+function randomIntFromInterval(min, max) { return Math.floor(Math.random()*(max-min+1)+min); }
+
+function calculateScaleSize(bpm, snap) { return 60/bpm/snap; }
+
+// -- All set, let's start!
+
+jQuery(function() {
+  window.app = new App()
+});
