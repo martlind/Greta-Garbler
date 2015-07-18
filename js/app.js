@@ -41,17 +41,32 @@ var TimeLine = Backbone.Collection.extend({
   initialize: function() {
     this.currentRegionIndex = 0;
     this.wavesurfer = null;
+    this.playing = false;
+    this.controls = new Controls({
+      el: $('#controls'),
+      collection: this
     });
-
-    this.wavesurfer.on('ready', function(){ self.addRegion(); });
-
+  },
+  ready: function() {
+    var self = this;
+    this.wavesurfer.on('ready', function() {
+      self.addRegion();
+      self.addRegion();
+      self.addRegion();
+      self.addRegion(); // Best loop ever!
+    });
     this.wavesurfer.load('http://upload.wikimedia.org/wikipedia/commons/7/7a/The_Yellow_Rose_Of_Texas.ogg');
   },
-  addRegion: function() {
-    var start = randomIntFromInterval(0, this.wavesurfer.getDuration());
+  addRegion: function(start, end) {
+    if (start == null) {
+      start = randomIntFromInterval(0, this.wavesurfer.getDuration());
+    }
+    if (end == null) {
+      end = start + 5 // FIXME
+    }
     var region = new Region({
       start: start,
-      end: start + 20, // FIXME
+      end: end
     });
     this.add(region);
     var waveSurferRegion = this.wavesurfer.addRegion({
@@ -63,11 +78,59 @@ var TimeLine = Backbone.Collection.extend({
     });
     region.set('waveSurferRegion', waveSurferRegion);
   },
-  play: function () {
-    // this.wavesurfer.play();
+  togglePlay: function() {
+    var self = this;
+    var iterateRegions = function() {
+      if (self.currentRegionIndex >= self.length - 1) {
+        self.currentRegionIndex = 0;
+      } else {
+        self.currentRegionIndex++;
+      }
+      var region = self.at(self.currentRegionIndex);
+      region.play();
+    }
+    if (!this.playing) {
+      this.wavesurfer.on('region-out', iterateRegions);
+      iterateRegions();
+      this.playing = true;
+      this.trigger('playing');
+      return true
+    } else {
+      this.wavesurfer.un('region-out');
+      this.wavesurfer.pause();
+      this.playing = false;
+      self.currentRegionIndex = 0;
+      this.trigger('paused');
+      return false
+    }
   },
-  pause: function () {
-    this.wavesurfer.pause();
+});
+
+var Controls = Backbone.View.extend({
+  events: {
+    'click #play': 'togglePlay',
+    'change #bpm, #snap': 'calculateScaleSize'
+  },
+
+  initialize: function() {
+    // this.listenTo(this.collection, 'playing paused', this.togglePlay);
+  },
+
+  togglePlay: function() {
+    var button = this.$el.find('#play')
+    if (this.collection.togglePlay()) {
+      button.text('Pause')
+    } else {
+      button.text('Play')
+    }
+  },
+
+  calculateScaleSize: function() {
+    // noop
+  },
+
+  render: function() {
+    // noop
   }
 });
 
@@ -90,11 +153,8 @@ var App = Backbone.Model.extend({
     this.get('timeLine').wavesurfer = wavesurfer;
     this.get('timeLine').ready();
   },
-  play: function() {
-    this.get('timeLine').play();
-  },
-  pause: function() {
-    this.get('timeLine').pause();
+  togglePlay: function() {
+    this.get('timeLine').togglePlay();
   },
   loadFile: function (fileName) {
     this.get('timeLine').loadFile();
