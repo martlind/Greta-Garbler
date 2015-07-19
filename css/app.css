@@ -49,14 +49,6 @@ audio {
   height: 0;
 }
 
-#adjust-bpm .needle {
-  position: fixed;
-  width: 1px;
-  height: 64px;
-  left: 50%;
-  border-right: 1px solid rgba(0,0,0,.6);
-}
-
 #adjust-bpm {
   position: fixed;
   height: 64px;
@@ -67,6 +59,15 @@ audio {
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   border-top: 1px solid rgba(0,0,0,.1);
+  z-index: 11;
+}
+
+#adjust-bpm .needle {
+  position: fixed;
+  width: 1px;
+  height: 64px;
+  left: 50%;
+  border-right: 1px solid rgba(0,0,0,.6);
 }
 
 #adjust-bpm .scroller {
@@ -120,12 +121,12 @@ audio {
   display: -webkit-flex;
   height: 84px;
   border-top: 1px solid rgba(0,0,0,.1);
-  z-index: 11;
+  z-index: 12;
 }
 
 #controls > * {
   width: 33.333%;
-  -webkit-appearance: none;
+  text-align: center;
 }
 
 #controls button,
@@ -153,6 +154,7 @@ span.label {
   margin-bottom: 4px;
   display: block;
   text-align: center;
+  text-transform: uppercase;
 }
 
 #snap, #bpm {

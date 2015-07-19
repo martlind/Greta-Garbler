@@ -34,10 +34,11 @@ audio.onloadeddata = function () {
 // PlayArea specific functions ------------------------------------------------
 
 function addNewPlayArea() {
-  var start = randomIntFromInterval(0, Math.floor(audio.duration));
-  var steps = scaleSize * randomIntFromInterval(1, 1);
+  var start = randomIntFromInterval(0, Math.floor(audio.duration)),
+      numberOfSteps = randomIntFromInterval(1, 1),
+      steps = scaleSize * numberOfSteps;
 
-  setPlayArea(playAreasCount++, start, start + steps, steps);
+  setPlayArea(playAreasCount++, start, start + steps, numberOfSteps);
 }
 
 function setPlayArea(id, start, stop, steps) {
