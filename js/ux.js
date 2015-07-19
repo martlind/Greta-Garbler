@@ -157,19 +157,22 @@ $("#controls .plus, #controls .minus").click(function() {
     $(".snap-text").text($("#snap option:selected").text());
 
   }
-  else {
-    
-    // BPM
-    if (plus) {
-      $("#bpm").val(parseInt($("#bpm").val())+1);
-    }
-    else {
-      $("#bpm").val(parseInt($("#bpm").val())-1);
-    }
-
-    $(".bpm-text").text(parseInt($("#bpm").val()));
-
-  }
 });
+
+
+// Init adjust bpm ------------------------------------------------------------
+
+var units = 300,
+    unitsHtml = "",
+    markersHtml = "";
+
+while(units--) {
+  unitsHtml += '<div class="unit"></div>';
+  if (!(units % 10))
+    markersHtml += '<div class="marker">' + units + '</div>';
+}
+
+$("#adjust-bpm .ruler .units").append(unitsHtml);
+$("#adjust-bpm .ruler .markers").append($(markersHtml).get().reverse());
 
 

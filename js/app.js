@@ -35,7 +35,7 @@ audio.onloadeddata = function () {
 
 function addNewPlayArea() {
   var start = randomIntFromInterval(0, Math.floor(audio.duration)),
-      numberOfSteps = randomIntFromInterval(1, 1),
+      numberOfSteps = randomIntFromInterval(1, 4),
       steps = scaleSize * numberOfSteps;
 
   setPlayArea(playAreasCount++, start, start + steps, numberOfSteps);

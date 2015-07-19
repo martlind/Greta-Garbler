@@ -60,6 +60,7 @@ audio {
   -webkit-overflow-scrolling: touch;
   border-top: 1px solid rgba(0,0,0,.1);
   z-index: 11;
+  white-space: nowrap;
 }
 
 #adjust-bpm .needle {
@@ -70,11 +71,37 @@ audio {
   border-right: 1px solid rgba(0,0,0,.6);
 }
 
-#adjust-bpm .scroller {
-  width: 4990px;
+#adjust-bpm .unit {
+  width: 10px;
   height: 24px;
-  background: repeating-linear-gradient(90deg, transparent, rgba(0,0,0,.25), transparent 1px, transparent 10px);
-  margin: 40px 50% 0;
+  margin-top: 8px;
+  border-left: 1px solid rgba(0,0,0,.2);
+  display: inline-block;
+}
+
+#adjust-bpm .unit:first-child {
+  margin-left: 50%;
+}
+
+#adjust-bpm .unit:last-child {
+  margin-right: 50%;
+}
+
+#adjust-bpm .marker {
+  display: inline-block;
+  width: 100px;
+  height: 32px;
+  padding-top: 14px;
+  font-size: 75%;
+  color: #7E8E9E;
+}
+
+#adjust-bpm .marker:first-child {
+  margin-left: 50%;
+}
+
+#adjust-bpm .marker:last-child {
+  margin-right: 50%;
 }
 
 .bar {
