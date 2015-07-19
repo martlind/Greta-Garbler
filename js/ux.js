@@ -97,26 +97,28 @@ $("#edit-controls .close, #edit-controls .remove").click(function() {
     
 });
 
-$(".bpm-text").click(function() {
-  var adjustBpm = $("#adjust-bpm");
+$("#controls .bpm").click(function() {
+  var adjustBpm = $("#adjust-bpm"),
+      controls = $("#controls");
 
-  if (adjustBpm.css("bottom") == "84px") {
+  if (controls.css("bottom") == "64px") {
     // hide
-    adjustBpm
+    controls
       .animate({
         bottom: "0px"
       }, 120, "easeOutExpo");
   }
   else {
-    adjustBpm
+    controls
       .animate({
-        bottom: "84px",
+        bottom: "64px",
         queue: false
-      }, 120, "easeOutExpo")
+      }, 120, "easeOutExpo");
+    adjustBpm
       .animate({
         scrollLeft: parseInt($("#bpm").val())*10,
         queue: false
-      }, 500, "easeOutExpo");
+      }, 1000, "easeOutExpo");
   }
 });
 

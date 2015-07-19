@@ -49,8 +49,7 @@ audio {
   height: 0;
 }
 
-#adjust-bpm:before {
-  content: "";
+#adjust-bpm .needle {
   position: fixed;
   width: 1px;
   height: 64px;
@@ -125,7 +124,7 @@ audio {
 }
 
 #controls > * {
-  width: 33%;
+  width: 33.333%;
   -webkit-appearance: none;
 }
 
@@ -137,17 +136,30 @@ audio {
   border: none;
 }
 
-#controls div:nth-child(2) {
-  width: 34%;
+#controls > .bpm {
   border-left: 1px solid rgba(0,0,0,.1);
   border-right: 1px solid rgba(0,0,0,.1);
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+}
+
+span.label {
+  font-size: 75%;
+  color: #7E8E9E;
+  margin-bottom: 4px;
+  display: block;
+  text-align: center;
 }
 
 #snap, #bpm {
   display: none;
 }
 
-#controls div {
+#controls > div {
   display: flex;
   display: -webkit-box;
   display: -moz-box;

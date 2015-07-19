@@ -36,27 +36,26 @@
     </g></svg></i></div></li>
   </ul>
   <div id="adjust-bpm">
+    <div class="needle"></div>
     <div class="scroller"></div>
   </div>
   <div id="controls">
     <div id="play" class="button"><i><svg viewBox="0 0 96 96"><g>
       <use xlink:href="images/icons.svg#play"></use>
     </g></svg></i></div>
-    <div class="bpm">
-      <div class="minus button"><i><svg viewBox="0 0 96 96"><g>
-        <use xlink:href="images/icons.svg#minus-small"></use>
-      </g></svg></i></div>
+    <div class="bpm button">
+      <span class="label">BPM</span>
       <span class="bpm-text">128</span>
       <input type="text" id="bpm" value="128">
-      <div class="plus button"><i><svg viewBox="0 0 96 96"><g>
-        <use xlink:href="images/icons.svg#plus-small"></use>
-      </g></svg></i></div>
     </div>
     <div class="snap">
       <div class="minus button"><i><svg viewBox="0 0 96 96"><g>
         <use xlink:href="images/icons.svg#minus-small"></use>
       </g></svg></i></div>
-      <span class="snap-text">1/1</span>
+      <div>
+        <span class="label">???</span>
+        <span class="snap-text">1/1</span>
+      </div>
       <select id="snap">
         <option value="1">1/1</option>
         <option value="2">1/2</option>
