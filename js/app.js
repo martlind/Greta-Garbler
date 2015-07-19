@@ -3,6 +3,7 @@
 var scaleSize = calculateScaleSize(),
     currentPlayArea = 0,
     editPlayArea = 0,
+    playAreasCount = 0,
     playAreas = [],
     colors = [
       "tomato",
@@ -36,7 +37,7 @@ function addNewPlayArea() {
   var start = randomIntFromInterval(0, Math.floor(audio.duration));
   var steps = scaleSize * randomIntFromInterval(1, 1);
 
-  setPlayArea(playAreas.length, start, start + steps, steps);
+  setPlayArea(playAreasCount++, start, start + steps, steps);
 }
 
 function setPlayArea(id, start, stop, steps) {
@@ -70,6 +71,13 @@ function addPlayArea(id) {
   console.log("addPlayArea: " + id + " colorId: " + colorId);
   
   $("#playareas li:last").before('<li id="playarea' + id + '" class="playarea ' + colors[colorId] + '"><div class="button"></div></li>');
+  $("#playarea" + id)
+    .width("0px")
+    .animate({
+      width: $("#playareas li:last").width() + "px"
+    }, 120, "easeOutExpo", function () {
+      $(this).removeAttr("style");
+    });
   $("#playhead").before('<div id="barplayarea' + id + '" class="playarea ' + colors[colorId] + '" style="left:' + leftPercent + '%; width:' + sizePercent + '%;"></div>');
 }
 

@@ -26,6 +26,10 @@ $(document).on("click", "#playareas .playarea", function() {
       // Animation complete.
       $('input[type="range"]').rangeslider('update', true);
     });
+    $("#playarea-settings > *")
+    .animate({
+      opacity: 1
+    }, 100);
 
 });
 
@@ -86,7 +90,43 @@ $("#edit-controls .close, #edit-controls .remove").click(function() {
         removePlayArea(editPlayArea);
       }
     });
+  $("#playarea-settings > *")
+    .animate({
+      opacity: 0
+    }, 100);
     
+});
+
+$(".bpm-text").click(function() {
+  var adjustBpm = $("#adjust-bpm");
+
+  if (adjustBpm.css("bottom") == "84px") {
+    // hide
+    adjustBpm
+      .animate({
+        bottom: "0px"
+      }, 120, "easeOutExpo");
+  }
+  else {
+    adjustBpm
+      .animate({
+        bottom: "84px",
+        queue: false
+      }, 120, "easeOutExpo")
+      .animate({
+        scrollLeft: parseInt($("#bpm").val())*10,
+        queue: false
+      }, 500, "easeOutExpo");
+  }
+});
+
+$("#adjust-bpm").on("scroll", function() {
+  var bpm = Math.round($(this).scrollLeft()/10);
+
+  if (bpm !== $("#bpm").val()) {
+    $(".bpm-text").text(bpm);
+    $("#bpm").val(bpm);
+  }
 });
 
 $("#controls .plus, #controls .minus").click(function() {
